@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3053873c-4869-4d94-b471-c46f2e02954d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/task1_series.py" beforeDir="false" afterPath="$PROJECT_DIR$/task1_series.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/task2_loop.py" beforeDir="false" afterPath="$PROJECT_DIR$/task2_loop.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/task3_string.py" beforeDir="false" afterPath="$PROJECT_DIR$/task3_string.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/task4_text.py" beforeDir="false" afterPath="$PROJECT_DIR$/task4_text.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/task5_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/task5_list.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
-    </list>
+    <list default="true" id="3053873c-4869-4d94-b471-c46f2e02954d" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
