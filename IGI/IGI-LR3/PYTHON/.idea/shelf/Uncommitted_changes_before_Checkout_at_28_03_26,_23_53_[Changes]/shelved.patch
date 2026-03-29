@@ -1,0 +1,487 @@
+Index: utils.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/utils.py b/utils.py
+new file mode 100644
+--- /dev/null	(date 1774729430903)
++++ b/utils.py	(date 1774729430903)
+@@ -0,0 +1,38 @@
++import random
++
++def input_int(prompt):
++    """Read an integer from user with error handling."""
++    while True:
++        try:
++            return int(input(prompt))
++        except ValueError:
++            print("Error: please enter an integer!")
++
++def input_float(prompt):
++    """Read a float from user with error handling."""
++    while True:
++        try:
++            return float(input(prompt))
++        except ValueError:
++            print("Error: please enter a number!")
++
++def input_nonempty_string(prompt):
++    """Read a non-empty string."""
++    while True:
++        s = input(prompt).strip()
++        if s:
++            return s
++        print("String cannot be empty!")
++
++def simple_decorator(func):
++    """Decorator that prints function name and result."""
++    def wrapper(*args, **kwargs):
++        print(f"\n[Decorator] Calling function: {func.__name__}")
++        result = func(*args, **kwargs)
++        print(f"[Decorator] Result: {result}")
++        return result
++    return wrapper
++
++def generate_random_list(size, min_val=-100, max_val=100):
++    """Generate a list of random floats."""
++    return [random.uniform(min_val, max_val) for _ in range(size)]
+\ No newline at end of file
+Index: menu.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/menu.py b/menu.py
+new file mode 100644
+--- /dev/null	(date 1774727094131)
++++ b/menu.py	(date 1774727094131)
+@@ -0,0 +1,42 @@
++from utils import input_int
++import list_processing
++import listok
++import series
++import sum_loop
++import text_analysis
++
++def main():
++    while True:
++        print("\n" + "="*50)
++        print("LABORATORY WORK No. 3 (Variant 13)")
++        print("="*50)
++        print("1 - Task 1: ln(1+x) series expansion")
++        print("2 - Task 2: count natural numbers")
++        print("3 - Task 3: check octal string")
++        print("4 - Task 4: analyze fixed text")
++        print("5 - Task 5: process a list")
++        print("0 - Exit")
++        print("-"*50)
++
++        choice = input_int("Select an option: ")
++
++        if choice == 1:
++            series.run_task1()
++        elif choice == 2:
++            sum_loop.run_task2()
++        elif choice == 3:
++            text_analysis.run_task3()
++        elif choice == 4:
++            list_processing.run_task4()
++        elif choice == 5:
++            listok.run_task5()
++        elif choice == 0:
++            print("Goodbye!")
++            break
++        else:
++            print("Invalid choice. Please enter a number from 0 to 5.")
++
++        input("\nPress Enter to continue...")
++
++if __name__ == "__main__":
++    main()
+\ No newline at end of file
+Index: .idea/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/.gitignore b/.idea/.gitignore
+new file mode 100644
+--- /dev/null	(date 1774332952254)
++++ b/.idea/.gitignore	(date 1774332952254)
+@@ -0,0 +1,5 @@
++# Default ignored files
++/shelf/
++/workspace.xml
++# Editor-based HTTP Client requests
++/httpRequests/
+Index: listok.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/listok.py b/listok.py
+new file mode 100644
+--- /dev/null	(date 1774729418521)
++++ b/listok.py	(date 1774729418521)
+@@ -0,0 +1,73 @@
++from utils import input_int, generate_random_list, simple_decorator
++
++def get_list_from_user(size):
++    """Let the user enter a list of floats."""
++    lst = []
++    print(f"Enter {size} floating point numbers:")
++    for i in range(size):
++        while True:
++            try:
++                val = float(input(f"Element {i+1}: "))
++                lst.append(val)
++                break
++            except ValueError:
++                print("Invalid input. Please enter a number.")
++    return lst
++
++def sum_odd_positions(lst):
++    """
++    Sum of elements at odd positions (1-indexed).
++    In Python (0-indexed), odd positions correspond to indices 0,2,4,...
++    """
++    return sum(lst[i] for i in range(0, len(lst), 2))
++
++def sum_between_first_last_negative(lst):
++    """
++    Sum of elements between the first and last negative elements.
++    Returns None if there are fewer than two negatives.
++    """
++    indices = [i for i, val in enumerate(lst) if val < 0]
++    if len(indices) < 2:
++        return None
++    first = indices[0]
++    last = indices[-1]
++    if first + 1 > last - 1:
++        return 0
++    return sum(lst[first+1:last])
++
++@simple_decorator
++def process_list(lst):
++    """Print results for the given list."""
++    print(f"\nList: {lst}")
++    odd_sum = sum_odd_positions(lst)
++    print(f"Sum of elements at odd positions (1‑based): {odd_sum}")
++
++    between_sum = sum_between_first_last_negative(lst)
++    if between_sum is None:
++        print("Not enough negative elements (need at least two).")
++    else:
++        print(f"Sum of elements between first and last negative: {between_sum}")
++
++def run_task5():
++    """Main entry for Task 5."""
++    print("\n--- Task 5: List Processing ---")
++    size = input_int("Enter the size of the list: ")
++    if size <= 0:
++        print("Size must be positive.")
++        return
++
++    print("Choose initialization method:")
++    print("1 - Enter manually")
++    print("2 - Generate random numbers")
++    choice = input_int("Your choice (1 or 2): ")
++
++    if choice == 1:
++        lst = get_list_from_user(size)
++    elif choice == 2:
++        lst = generate_random_list(size)
++        print("Generated list:", lst)
++    else:
++        print("Invalid choice.")
++        return
++
++    process_list(lst)
+\ No newline at end of file
+Index: .idea/inspectionProfiles/profiles_settings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/inspectionProfiles/profiles_settings.xml b/.idea/inspectionProfiles/profiles_settings.xml
+new file mode 100644
+--- /dev/null	(date 1774332965817)
++++ b/.idea/inspectionProfiles/profiles_settings.xml	(date 1774332965817)
+@@ -0,0 +1,6 @@
++<component name="InspectionProjectProfileManager">
++  <settings>
++    <option name="USE_PROJECT_PROFILE" value="false" />
++    <version value="1.0" />
++  </settings>
++</component>
+\ No newline at end of file
+Index: .idea/PYTHON.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/PYTHON.iml b/.idea/PYTHON.iml
+new file mode 100644
+--- /dev/null	(date 1774333452097)
++++ b/.idea/PYTHON.iml	(date 1774333452097)
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<module type="PYTHON_MODULE" version="4">
++  <component name="NewModuleRootManager">
++    <content url="file://$MODULE_DIR$">
++      <excludeFolder url="file://$MODULE_DIR$/.venv" />
++    </content>
++    <orderEntry type="jdk" jdkName="Python 3.14 (PYTHON)" jdkType="Python SDK" />
++    <orderEntry type="sourceFolder" forTests="false" />
++  </component>
++</module>
+\ No newline at end of file
+Index: .idea/modules.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/modules.xml b/.idea/modules.xml
+new file mode 100644
+--- /dev/null	(date 1774332965812)
++++ b/.idea/modules.xml	(date 1774332965812)
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ProjectModuleManager">
++    <modules>
++      <module fileurl="file://$PROJECT_DIR$/.idea/PYTHON.iml" filepath="$PROJECT_DIR$/.idea/PYTHON.iml" />
++    </modules>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+new file mode 100644
+--- /dev/null	(date 1774333452098)
++++ b/.idea/misc.xml	(date 1774333452098)
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="Black">
++    <option name="sdkName" value="Python 3.9 (PythonProject)" />
++  </component>
++  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.14 (PYTHON)" project-jdk-type="Python SDK" />
++</project>
+\ No newline at end of file
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+new file mode 100644
+--- /dev/null	(date 1774332965824)
++++ b/.idea/vcs.xml	(date 1774332965824)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="VcsDirectoryMappings">
++    <mapping directory="$PROJECT_DIR$/../../.." vcs="Git" />
++  </component>
++</project>
+\ No newline at end of file
+Index: series.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/series.py b/series.py
+new file mode 100644
+--- /dev/null	(date 1774729418527)
++++ b/series.py	(date 1774729418527)
+@@ -0,0 +1,40 @@
++import math
++from utils import input_float, simple_decorator
++
++@simple_decorator
++def ln_series(x, eps, max_iter=500):
++
++    if x <= -1:
++        raise ValueError("x must be > -1 (ln(1+x) undefined or series diverges)")
++    if abs(x) >= 1 and x != 1:
++        print("Warning: series converges slowly or may diverge. |x| should be < 1.")
++
++    term = x          # first term (n=1)
++    total = term
++    n = 1             # number of terms summed
++
++    while abs(term) > eps and n < max_iter:
++        n += 1
++        # recurrence: term_n = - term_{n-1} * x * (n-1)/n
++        term = -term * x * (n-1) / n
++        total += term
++
++    return total, n
++
++def run_task1():
++    """Main entry for Task 1."""
++    print("\n--- Task 1: Series Expansion for ln(1+x) ---")
++    x = input_float("Enter x (|x| < 1, but x > -1): ")
++    eps = input_float("Enter accuracy (e.g., 0.0001): ")
++
++    try:
++        approx, terms = ln_series(x, eps)
++        exact = math.log(1 + x)
++        print(f"\nResults:")
++        print(f"x = {x}")
++        print(f"Approximation F(x) = {approx}")
++        print(f"Number of terms used = {terms}")
++        print(f"Exact math.log(1+x) = {exact}")
++        print(f"Difference = {abs(approx - exact)}")
++    except ValueError as e:
++        print(f"Error: {e}")
+\ No newline at end of file
+Index: sum_loop.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/sum_loop.py b/sum_loop.py
+new file mode 100644
+--- /dev/null	(date 1774729418532)
++++ b/sum_loop.py	(date 1774729418532)
+@@ -0,0 +1,22 @@
++from utils import input_int, simple_decorator
++
++@simple_decorator
++def count_natural_numbers():
++    """
++    Read integers until 0. Return the count of positive numbers (natural numbers).
++    """
++    count = 0
++    print("Enter integers (0 to stop):")
++    while True:
++        num = input_int("> ")
++        if num == 0:
++            break
++        if num > 0:        # natural numbers are positive
++            count += 1
++    return count
++
++def run_task2():
++    """Main entry for Task 2."""
++    print("\n--- Task 2: Count Natural Numbers ---")
++    result = count_natural_numbers()
++    print(f"Number of natural numbers: {result}")
+\ No newline at end of file
+Index: text_analysis.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/text_analysis.py b/text_analysis.py
+new file mode 100644
+--- /dev/null	(date 1774729436359)
++++ b/text_analysis.py	(date 1774729436359)
+@@ -0,0 +1,24 @@
++from utils import input_nonempty_string, simple_decorator
++
++@simple_decorator
++def is_octal(s):
++    """
++    Return True if s is a valid octal number (with optional 0o prefix).
++    """
++    s = s.strip().lower()
++    if not s:
++        return False
++    # remove optional prefix
++    if s.startswith('0o'):
++        s = s[2:]
++    # all characters must be 0-7
++    return all(ch in '01234567' for ch in s)
++
++def run_task3():
++    """Main entry for Task 3."""
++    print("\n--- Task 3: Check Octal String ---")
++    s = input_nonempty_string("Enter a string: ")
++    if is_octal(s):
++        print(f"'{s}' is a valid octal number.")
++    else:
++        print(f"'{s}' is NOT a valid octal number.")
+\ No newline at end of file
+Index: list_processing.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/list_processing.py b/list_processing.py
+new file mode 100644
+--- /dev/null	(date 1774729424563)
++++ b/list_processing.py	(date 1774729424563)
+@@ -0,0 +1,64 @@
++import string
++from utils import simple_decorator
++
++# Fixed text from the assignment
++FIXED_TEXT = (
++    "So she was considering in her own mind, as well as she could, for the "
++    "hot day made her feel very sleepy and stupid, whether the pleasure of "
++    "making a daisy-chain would be worth the trouble of getting up and "
++    "picking the daisies, when suddenly a White Rabbit with pink eyes ran "
++    "close by her."
++)
++
++def clean_and_split(text):
++    """Remove punctuation (except apostrophe) and split into words."""
++    for p in string.punctuation:
++        if p != "'":
++            text = text.replace(p, ' ')
++    return [w for w in text.split() if w]
++
++def words_with_odd_length(text):
++    """Return list of words whose length is odd."""
++    words = clean_and_split(text)
++    return [w for w in words if len(w) % 2 == 1]
++
++def shortest_word_starting_with_i(text):
++    """Return the shortest word starting with 'i' (case‑insensitive)."""
++    words = clean_and_split(text)
++    candidates = [w for w in words if w.lower().startswith('i')]
++    if not candidates:
++        return None
++    return min(candidates, key=len)
++
++def find_duplicates(text):
++    """Return list of words that appear more than once (case‑insensitive)."""
++    words = [w.lower() for w in clean_and_split(text)]
++    freq = {}
++    for w in words:
++        freq[w] = freq.get(w, 0) + 1
++    return [w for w, cnt in freq.items() if cnt > 1]
++
++@simple_decorator
++def run_task4():
++    """Main entry for Task 4."""
++    print("\n--- Task 4: Text Analysis ---")
++    print("Analyzing the following text:")
++    print(FIXED_TEXT)
++    print()
++
++    total = len(clean_and_split(FIXED_TEXT))
++    odd_words = words_with_odd_length(FIXED_TEXT)
++    print(f"a) Total words: {total}")
++    print(f"   Words with odd length: {', '.join(odd_words)}")
++
++    shortest = shortest_word_starting_with_i(FIXED_TEXT)
++    if shortest:
++        print(f"b) Shortest word starting with 'i': '{shortest}'")
++    else:
++        print("b) No word starts with 'i'.")
++
++    duplicates = find_duplicates(FIXED_TEXT)
++    if duplicates:
++        print(f"c) Duplicate words (case‑insensitive): {', '.join(duplicates)}")
++    else:
++        print("c) No duplicate words found.")
+\ No newline at end of file
