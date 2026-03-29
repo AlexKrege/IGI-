@@ -1,6 +1,3 @@
-# utils.py
-# Helper functions: safe input, decorator, list generator
-
 import random
 
 def input_int(prompt):

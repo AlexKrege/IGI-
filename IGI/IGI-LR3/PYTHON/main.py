@@ -9,7 +9,6 @@ import task4_text
 import task5_list
 
 def main():
-    """Main program loop."""
     while True:
         print("\n" + "="*50)
         print("LABORATORY WORK No. 3 (Variant 13)")

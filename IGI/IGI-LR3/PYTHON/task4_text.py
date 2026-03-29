@@ -1,10 +1,6 @@
-# task4_text.py
-# Task 4: analyze the given text (variant 13)
-
 import string
 from utils import simple_decorator
 
-# Fixed text from the assignment
 FIXED_TEXT = (
     "So she was considering in her own mind, as well as she could, for the "
     "hot day made her feel very sleepy and stupid, whether the pleasure of "
@@ -43,7 +39,6 @@ def find_duplicates(text):
 
 @simple_decorator
 def run_task4():
-    """Main entry for Task 4."""
     print("\n--- Task 4: Text Analysis ---")
     print("Analyzing the following text:")
     print(FIXED_TEXT)

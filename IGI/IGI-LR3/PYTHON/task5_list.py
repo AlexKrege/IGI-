@@ -1,6 +1,3 @@
-# task5_list.py
-# Task 5: list processing (variant 13)
-
 from utils import input_int, generate_random_list, simple_decorator
 
 def get_list_from_user(size):
