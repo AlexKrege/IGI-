@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{ object.title }}</h1>
+<div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+    {% if object.image %}
+        <img src="{{ object.image.url }}" alt="{{ object.title }}" style="max-width: 400px; border-radius: 16px;">
+    {% endif %}
+    <div>
+        <p><strong>Категория:</strong> {{ object.category.name }}</p>
+        <p><strong>Адрес:</strong> {{ object.address }}</p>
+        <p><strong>Цена:</strong> {{ object.price }} руб. 
+        {% if price_usd %}(≈ {{ price_usd }} USD){% endif %}</p>
+        {% if price_usd %}
+            <p><strong>≈ {{ price_usd }} USD</strong></p>
+        {% endif %}
+        <p><strong>Площадь:</strong> {{ object.area }} м²</p>
+        <p><strong>Комнат:</strong> {{ object.rooms }}</p>
+        <p><strong>Описание:</strong> {{ object.description }}</p>
+        {% if user.is_staff %}
+            <div style="margin-top: 1rem;">
+                <a href="{% url 'properties:update' object.pk %}" class="btn">Редактировать</a>
+                <a href="{% url 'properties:delete' object.pk %}" class="btn">Удалить</a>
+            </div>
+        {% endif %}
+        {% if user.is_authenticated and not user.is_staff %}
+            <div style="margin-top: 1rem;">
+                <a href="{% url 'properties:apply' object.pk %}" class="btn">Подать заявку</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

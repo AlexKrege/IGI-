@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Асинхронный вызов API (Asyncio)</h1>
+<p>Курсы валют (асинхронно получены с 3 источников):</p>
+<ul>
+    {% for data in rates %}
+        <li>{{ data.base }}: {{ data.rates }}</li>
+    {% endfor %}
+</ul>
+<p><a href="{% url 'api:async_rates' %}">JSON-ответ</a></p>
+{% endblock %}

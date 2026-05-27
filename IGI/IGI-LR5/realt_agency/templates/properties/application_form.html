@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Заявка на подбор недвижимости</h1>
+<p>Укажите желаемые параметры:</p>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Отправить заявку</button>
+</form>
+{% endblock %}

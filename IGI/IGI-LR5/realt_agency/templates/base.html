@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Риэлторское агентство</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{% url 'agency:home' %}">Главная</a>
+            <a href="{% url 'agency:about' %}">О компании</a>
+            <a href="{% url 'agency:reviews_list' %}">Отзывы</a>
+            <a href="{% url 'agency:promocodes' %}">Промокоды</a>
+            <a href="{% url 'properties:list' %}">Недвижимость</a>
+            <a href="{% url 'agency:news_list' %}">Новости</a>      <!-- новая вкладка -->
+            <a href="{% url 'agency:contacts' %}">Контакты</a>     <!-- новая вкладка -->
+            <a href="{% url 'agency:vacancies' %}">Вакансии</a> 
+            {% if user.is_authenticated and not user.is_staff %}
+                <a href="{% url 'properties:apply' %}">Оставить заявку</a>
+            {% endif %}
+            {% if user.is_staff %}
+                <a href="{% url 'agency:statistics' %}">Статистика</a>
+            {% endif %}
+            {% if user.is_authenticated %}
+                {% if user.is_staff %}
+                    <a href="{% url 'properties:application_list' %}">Управление заявками</a>
+                {% else %}
+                    <a href="{% url 'properties:application_list' %}">Мои заявки</a>
+                {% endif %}
+                <span>{{ user.username }}</span>
+                <a href="{% url 'accounts:profile' %}">Профиль</a>
+                <a href="{% url 'accounts:logout' %}">Выйти</a>
+            {% else %}
+                <a href="{% url 'accounts:login' %}">Войти</a>
+                <a href="{% url 'accounts:register' %}">Регистрация</a>
+            {% endif %}
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+       <p>Текущее UTC: {{ utc_now|date:"d/m/Y H:i" }}</p>
+        {% if user_tz %}
+            <p>Время в Минске (UTC+3): {% now "d/m/Y H:i" %}</p>
+        {% endif %}
+    </footer>
+</body>
+</html>

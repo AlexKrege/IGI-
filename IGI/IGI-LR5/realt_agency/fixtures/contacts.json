@@ -1,0 +1,35 @@
+[
+  {
+    "model": "news.contact",
+    "pk": 1,
+    "fields": {
+      "name": "Анна Петрова",
+      "role": "Директор",
+      "phone": "+375 (29) 111-22-33",
+      "email": "anna@realty.by",
+      "photo": ""
+    }
+  },
+  {
+    "model": "news.contact",
+    "pk": 2,
+    "fields": {
+      "name": "Сергей Сидоров",
+      "role": "Риэлтор",
+      "phone": "+375 (29) 444-55-66",
+      "email": "sergey@realty.by",
+      "photo": ""
+    }
+  },
+  {
+    "model": "news.contact",
+    "pk": 3,
+    "fields": {
+      "name": "Ольга Ковальчук",
+      "role": "Менеджер по работе с клиентами",
+      "phone": "+375 (29) 777-88-99",
+      "email": "olga@realty.by",
+      "photo": ""
+    }
+  }
+]

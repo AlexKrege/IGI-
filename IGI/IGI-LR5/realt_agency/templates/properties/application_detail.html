@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Заявка #{{ object.id }}</h1>
+<p><strong>Клиент:</strong> {{ object.user.get_full_name|default:object.user.username }}</p>
+<p><strong>Тип недвижимости:</strong> {{ object.property_type.name|default:"Любой" }}</p>
+<p><strong>Бюджет:</strong> {{ object.budget }} руб.</p>
+<p><strong>Количество комнат:</strong> {{ object.rooms }}</p>
+<p><strong>Этаж:</strong> {{ object.floor|default:"не указан" }}</p>
+<p><strong>Статус:</strong> {{ object.get_status_display }}</p>
+<p><strong>Дата создания:</strong> {{ object.created_at|date:"d.m.Y H:i" }}</p>
+<p><strong>Последнее обновление:</strong> {{ object.updated_at|date:"d.m.Y H:i" }}</p>
+
+<div class="actions">
+    {% if user.is_staff %}
+        <a href="{% url 'properties:application_update' object.pk %}">Изменить статус</a>
+        <a href="{% url 'properties:application_delete' object.pk %}" style="color:red;">Удалить заявку</a>
+    {% elif object.status == 'pending' %}
+        <a href="{% url 'properties:application_delete' object.pk %}" style="color:red;">Отозвать заявку</a>
+    {% endif %}
+    <a href="{% url 'properties:application_list' %}">К списку заявок</a>
+</div>
+{% endblock %}

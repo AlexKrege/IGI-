@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{ object.title }}</h1>
+{% if object.image %}
+    <img src="{{ object.image.url }}" alt="{{ object.title }}" style="max-width: 100%; border-radius: 8px;">
+{% endif %}
+<p>{{ object.content|linebreaks }}</p>
+<a href="{% url 'agency:news_list' %}">← Назад к новостям</a>
+{% endblock %}

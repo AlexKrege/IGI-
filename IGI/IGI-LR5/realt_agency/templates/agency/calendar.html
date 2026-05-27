@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Календарь</h1>
+<div style="font-family: monospace; background: #fafaff; padding: 1rem; border-radius: 16px;">
+    <pre>{{ calendar_text }}</pre>
+</div>
+<p><small>Текущая дата (ваша временная зона): {% now "d/m/Y" %}</small></p>
+{% endblock %}

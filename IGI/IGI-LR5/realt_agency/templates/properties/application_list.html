@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{% if user.is_staff %}Все заявки клиентов{% else %}Мои заявки{% endif %}</h1>
+
+<a href="{% url 'properties:apply' %}" class="btn">+ Новая заявка</a>
+
+<form method="get" style="margin: 1rem 0;">
+    <label>Фильтр по статусу:</label>
+    <select name="status" onchange="this.form.submit()">
+        <option value="">Все</option>
+        {% for value, label in status_choices %}
+            <option value="{{ value }}" {% if current_status == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+    </select>
+</form>
+
+<div class="applications-list">
+    {% for app in applications %}
+        <div class="application-card">
+            <h3>Заявка #{{ app.id }}</h3>
+            <p><strong>Тип:</strong> {{ app.property_type.name|default:"Любой" }}</p>
+            <p><strong>Бюджет:</strong> {{ app.budget }} руб.</p>
+            <p><strong>Комнат:</strong> {{ app.rooms }}</p>
+            <p><strong>Этаж:</strong> {{ app.floor|default:"не указан" }}</p>
+            <p><strong>Статус:</strong> {{ app.get_status_display }}</p>
+            <p><strong>Создана:</strong> {{ app.created_at|date:"d.m.Y H:i" }}</p>
+            <div class="actions">
+                <a href="{% url 'properties:application_detail' app.pk %}">Подробнее</a>
+                {% if user.is_staff %}
+                    <a href="{% url 'properties:application_update' app.pk %}">Изменить статус</a>
+                {% elif app.status == 'pending' %}
+                    <a href="{% url 'properties:application_delete' app.pk %}" style="color:red;">Отозвать</a>
+                {% endif %}
+            </div>
+        </div>
+    {% empty %}
+        <p>У вас нет заявок. <a href="{% url 'properties:apply' %}">Создать заявку</a></p>
+    {% endfor %}
+</div>
+{% endblock %}

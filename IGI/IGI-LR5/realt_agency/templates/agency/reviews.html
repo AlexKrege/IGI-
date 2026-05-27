@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Отзывы наших клиентов</h1>
+
+{% if user.is_authenticated %}
+    <div style="margin-bottom: 2rem;">
+        <a href="{% url 'agency:review_create' %}" class="btn">Оставить отзыв</a>
+    </div>
+{% endif %}
+
+<div class="reviews-list">
+    {% for review in reviews %}
+        <div class="review-card">
+            <div class="review-header">
+                <strong>{{ review.user.username }}</strong>
+                <span class="rating">Оценка: {{ review.rating }}/5</span>
+                <span class="date">{{ review.created_at|date:"d.m.Y H:i" }}</span>
+            </div>
+            <div class="review-text">
+                {{ review.text }}
+            </div>
+        </div>
+    {% empty %}
+        <p>Пока нет отзывов. Будьте первым, кто оставит отзыв!</p>
+    {% endfor %}
+</div>
+{% endblock %}

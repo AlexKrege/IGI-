@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h1>Статистика агентства</h1>
+<p>Средняя цена объекта: {{ avg_price|floatformat:2 }} руб.</p>
+<p>Медианная цена: {{ median_price|floatformat:2 }} руб.</p>
+<p>Самый популярный тип недвижимости: {{ popular_category.name }}</p>
+
+<hr>
+<hr>
+<h2>Популярность категорий недвижимости</h2>
+<img src="{% url 'agency:categories_chart' %}" alt="Популярность категорий" style="max-width:100%; height:auto;">
+<h2>Распределение цен на недвижимость</h2>
+<img src="{% url 'agency:price_chart' %}" alt="Гистограмма цен" style="max-width:100%; height:auto;">
+{% endblock %}

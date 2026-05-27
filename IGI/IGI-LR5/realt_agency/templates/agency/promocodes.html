@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Промокоды</h1>
+{% for promo in object_list %}
+    <p>{{ promo.code }} – скидка {{ promo.discount_percent }}%</p>
+{% empty %}
+    <p>Нет активных промокодов.</p>
+{% endfor %}
+{% endblock %}
