@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: realty-agency
+    runtime: image
+    repo: https://github.com/AlexKrege/IGI-
+    branch: main
+    plan: free
+    rootDir: IGI/IGI-LR5/realt_agency
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: SECRET_KEY
+        sync: false
+      - key: DEBUG
+        value: 'False'
+      - key: ALLOWED_HOSTS
+        value: '.onrender.com'
+    preDeployCommand: |
+      python manage.py migrate --noinput
