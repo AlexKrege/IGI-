@@ -82,27 +82,36 @@ LOGOUT_REDIRECT_URL = '/'
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
+STATIC_ROOT = '/app/staticfiles'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = '/app/media'
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'formatters': {
+#         'verbose': {'format': '{levelname} {asctime} {module} {message}', 'style': '{'},
+#     },
+#     'handlers': {
+#         'file': {
+#             'level': 'INFO',
+#             'class': 'logging.FileHandler',
+#             'filename': BASE_DIR / 'logs/debug.log',
+#             'formatter': 'verbose',
+#         },
+#         'console': {'class': 'logging.StreamHandler'},
+#     },
+#     'root': {'handlers': ['console', 'file'], 'level': 'INFO'},
+# }
 
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {'format': '{levelname} {asctime} {module} {message}', 'style': '{'},
-    },
     'handlers': {
-        'file': {
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': BASE_DIR / 'logs/debug.log',
-            'formatter': 'verbose',
-        },
         'console': {'class': 'logging.StreamHandler'},
     },
-    'root': {'handlers': ['console', 'file'], 'level': 'INFO'},
+    'root': {'handlers': ['console'], 'level': 'INFO'},
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
