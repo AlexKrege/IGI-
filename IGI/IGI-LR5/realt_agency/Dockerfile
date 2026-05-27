@@ -2,19 +2,19 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Устанавливаем системные зависимости для Pillow и Matplotlib
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     libjpeg-dev \
     zlib1g-dev \
-    libfreetype6-dev \
-    libpng-dev \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
+
+# Создаём папку для логов и медиа, чтобы избежать ошибок
+RUN mkdir -p logs media staticfiles
 
 ARG SECRET_KEY=django-insecure-build-key
 ARG DEBUG=False
