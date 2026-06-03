@@ -93,10 +93,8 @@ class PromocodeListView(ListView):
     model = Promocode
     template_name = 'agency/promocodes.html'
     def get_queryset(self):
-        from datetime import date
-        today = date.today()
-        return Promocode.objects.filter(valid_from__lte=today, valid_to__gte=today, is_active=True, archived=False)
-
+        # Убираем фильтр по дате, оставляем только активные и не архивные
+        return Promocode.objects.filter(is_active=True, archived=False)
 
 # ---- ГРАФИКИ ЧЕРЕЗ MATPLOTLIB ----
 def popular_properties_chart(request):
