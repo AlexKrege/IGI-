@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
 <h1>Новости</h1>
 {% for news in news_list %}
-    <div class="news-item">
-        {% if news.image %}
-            <img src="{{ news.image.url }}" alt="{{ news.title }}" style="max-width: 300px; border-radius: 8px;">
-        {% endif %}
+    <div style="margin-bottom: 20px;">
+        <img src="{% static 'images/2.jpeg' %}" alt="{{ news.title }}" style="width:200px; height:150px; object-fit:cover;">
         <h2>{{ news.title }}</h2>
         <p>{{ news.summary }}</p>
-        <a href="{% url 'agency:news_detail' news.id %}">Читать далее →</a>
+        <a href="{% url 'agency:news_detail' news.id %}">Читать далее</a>
     </div>
 {% empty %}
-    <p>Новостей пока нет.</p>
+    <p>Новостей нет.</p>
 {% endfor %}
 {% endblock %}

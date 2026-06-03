@@ -1,54 +1,44 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block content %}
 <h1>Объекты недвижимости</h1>
 
-<form method="get" style="margin-bottom: 1rem;">
-    <input type="text" name="search" value="{{ search_term }}" placeholder="Поиск по адресу или названию" style="width: 60%;">
+<form method="get">
+    <input type="text" name="search" value="{{ search_term }}" placeholder="Поиск">
     <select name="sort">
-        <option value="price" {% if current_sort == 'price' %}selected{% endif %}>Цена (по возрастанию)</option>
-        <option value="-price" {% if current_sort == '-price' %}selected{% endif %}>Цена (по убыванию)</option>
-        <option value="area" {% if current_sort == 'area' %}selected{% endif %}>Площадь</option>
-        <option value="rooms" {% if current_sort == 'rooms' %}selected{% endif %}>Комнаты</option>
+        <option value="price">Цена (возр.)</option>
+        <option value="-price">Цена (убыв.)</option>
     </select>
     <button type="submit">Применить</button>
     {% if user.is_staff %}
-        <a href="{% url 'properties:create' %}" class="btn">+ Добавить объект</a>
-    {% endif %} 
+        <a href="{% url 'properties:create' %}">+ Добавить объект</a>
+    {% endif %}
 </form>
 
 <div class="properties-grid">
     {% for property in property_list %}
         <div class="property-card">
-            {% if property.image %}
-                <img src="{{ property.image.url }}" alt="{{ property.title }}">
-            {% else %}
-                <img src="https://via.placeholder.com/300x200?text=Нет+фото" alt="Нет фото">
-            {% endif %}
+            {% with img_path='images/'|add:property.id|add:'.jpeg' %}
+                <img class="property-img" src="{% static img_path %}" alt="{{ property.title }}" style="width:100%; height:200px; object-fit:cover;">
+            {% endwith %}
             <div class="property-info">
                 <h2><a href="{% url 'properties:detail' property.pk %}">{{ property.title }}</a></h2>
-            <div class="price">{{ property.price }} руб.</div>
-            {% if property.price_usd %}
-            <div class="price-usd">≈ {{ property.price_usd }} USD</div>
-            {% endif %}
+                <div class="price">{{ property.price }} руб.</div>
                 <div class="address">{{ property.address }}</div>
                 <div class="details">{{ property.rooms }} комн. • {{ property.area }} м²</div>
             </div>
         </div>
     {% empty %}
-        <p>Нет активных объектов недвижимости.</p>
+        <p>Нет объектов.</p>
     {% endfor %}
 </div>
 
-<div class="pagination">
-    {% if page_obj.has_previous %}
-        <a href="?page=1&search={{ search_term }}&sort={{ current_sort }}">« Первая</a>
-        <a href="?page={{ page_obj.previous_page_number }}&search={{ search_term }}&sort={{ current_sort }}">‹ Назад</a>
-    {% endif %}
-    <span class="current">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
-    {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}&search={{ search_term }}&sort={{ current_sort }}">Вперёд ›</a>
-        <a href="?page={{ page_obj.paginator.num_pages }}&search={{ search_term }}&sort={{ current_sort }}">Последняя »</a>
-    {% endif %}
-</div>
+<script>
+    document.querySelectorAll('.property-img').forEach(function(img) {
+        img.onerror = function() {
+            this.src = "{% static 'images/Unknown.jpeg' %}";
+        };
+    });
+</script>
 {% endblock %}

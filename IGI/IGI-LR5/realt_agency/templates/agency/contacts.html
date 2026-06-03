@@ -1,2 +1,5 @@
 {% extends 'base.html' %}
-{% block content %}<h1>Контакты</h1>{% for contact in contacts %}<p>{{ contact.name }} - {{ contact.role }}: {{ contact.phone }}, {{ contact.email }}</p>{% endfor %}{% endblock %}
+{% block content %}
+{% load static %}
+<img src="{% static 'images/Unknown.jpeg' %}" alt="{{ contact.name }}" width="80">
+<h1>Контакты</h1>{% for contact in contacts %}<p>{{ contact.name }} - {{ contact.role }}: {{ contact.phone }}, {{ contact.email }}</p>{% endfor %}{% endblock %}

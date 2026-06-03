@@ -1,11 +1,10 @@
 [
   {
     "model": "api.promocode",
-    "pk": 5,
     "fields": {
-      "code": "NEW20",
+      "code": "WELCOME20",
       "discount_percent": 20,
-      "valid_from": "2025-05-27",
+      "valid_from": "2025-06-01",
       "valid_to": "2025-12-31",
       "is_active": true,
       "archived": false

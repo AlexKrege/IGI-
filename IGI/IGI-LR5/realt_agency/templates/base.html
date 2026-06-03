@@ -14,9 +14,9 @@
             <a href="{% url 'agency:reviews_list' %}">Отзывы</a>
             <a href="{% url 'agency:promocodes' %}">Промокоды</a>
             <a href="{% url 'properties:list' %}">Недвижимость</a>
-            <a href="{% url 'agency:news_list' %}">Новости</a>      <!-- новая вкладка -->
-            <a href="{% url 'agency:contacts' %}">Контакты</a>     <!-- новая вкладка -->
-            <a href="{% url 'agency:vacancies' %}">Вакансии</a> 
+            <a href="{% url 'agency:news_list' %}">Новости</a>
+            <a href="{% url 'agency:contacts' %}">Контакты</a>
+            <a href="{% url 'agency:vacancies' %}">Вакансии</a>
             {% if user.is_authenticated and not user.is_staff %}
                 <a href="{% url 'properties:apply' %}">Оставить заявку</a>
             {% endif %}
@@ -39,10 +39,11 @@
         </nav>
     </header>
     <main>
-        {% block content %}{% endblock %}
+        {% block content %}
+        {% endblock %}
     </main>
     <footer>
-       <p>Текущее UTC: {{ utc_now|date:"d/m/Y H:i" }}</p>
+        <p>Текущее UTC: {{ utc_now|date:"d/m/Y H:i" }}</p>
         {% if user_tz %}
             <p>Время в Минске (UTC+3): {% now "d/m/Y H:i" %}</p>
         {% endif %}
